@@ -1,45 +1,56 @@
-const path = require('path');
 const express = require('express');
-const { Client } = require('ssh2');
-const cors = require('cors');
-require('dotenv').config();
+const http = require('http');
+const WebSocket = require('ws');
+const pty = require('node-pty');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
-app.use(cors());
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
-// Set the path to SQL-KEY.pem in the same directory as server.js
-const keyPath = path.join(__dirname, 'SQL-KEY.pem');
+// Serve your frontend (from public folder)
+app.use(express.static('public'));
 
-app.get('/connect', (req, res) => {
-    const conn = new Client();
+wss.on('connection', function connection(ws) {
+  console.log('🖥️ New terminal session started');
 
-    conn.on('ready', () => {
-        console.log('SSH Connection Established');
-        console.log('Connecting with:', {
-            host: '3.82.194.92',
-            username: 'ec2-user',
-            key: keyPath
-          });          
-        const mysqlCommand = `mysql -u root -p'${process.env.MYSQL_PASSWORD}' -e "SHOW DATABASES;"`;
+  // Replace with your actual EC2 IP
+  const ec2IP = '3.82.194.92';
 
-        conn.exec(mysqlCommand, (err, stream) => {
-            if (err) {
-                res.send(err);
-                return;
-            }
-            let data = '';
-            stream.on('data', (chunk) => (data += chunk));
-            stream.on('close', () => {
-                conn.end();
-                res.send(data);
-            });
-        });
-    }).connect({
-        host: '3.82.194.92',
-        port: 22,
-        username: 'ec2-user',
-        privateKey: require('fs').readFileSync(keyPath)
-    });
+  const shell = pty.spawn('ssh', [
+    '-i', path.join(__dirname, 'SQL-KEY.pem'),
+    `ec2-user@${ec2IP}`
+  ], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 24,
+    cwd: process.env.HOME,
+    env: process.env
+  });
+
+  let initialized = false;
+
+  shell.on('data', function (data) {
+    // Inject mysql only once when SSH is ready
+    if (!initialized && data.includes('ec2-user@')) {
+      initialized = true;
+      shell.write('mysql\n'); // .my.cnf will log in automatically
+    }
+
+    ws.send(data);
+  });
+
+  ws.on('message', function (msg) {
+    shell.write(msg);
+  });
+
+  ws.on('close', function () {
+    shell.kill();
+    console.log('❌ Terminal session closed');
+  });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+server.listen(3000, () => {
+  console.log('🚀 Server + WebSocket running at http://localhost:3000');
+});
