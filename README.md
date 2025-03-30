@@ -19,6 +19,11 @@ Build a web-based terminal that connects to a MySQL database running on an AWS E
 ```bash
 ssh -i ~/.ssh/SQL-KEY.pem ubuntu@your-ec2-public-ip
 ```
+or
+```bash
+ssh -i ~/.ssh/SQL-KEY.pem ec2-user@your-ec2-public-ip
+```
+If using an ec2 instance
 
 ### 3. Install MySQL Server
 ```bash
