@@ -1,6 +1,6 @@
 # AWS MySQL Terminal Project Setup Documentation
 
-## 📦 Project Goal
+## Project Goal
 Build a web-based terminal that connects to a MySQL database running on an AWS EC2 instance using SSH, and allows users to interact with the database through a simulated shell in the browser.
 
 ---
@@ -49,7 +49,7 @@ mysql
 
 ---
 
-## 🧱 Web Terminal App Setup
+## Web Terminal App Setup
 
 ### 1. Project Structure
 ```
@@ -123,14 +123,14 @@ EC2_HOST=your-ec2-public-ip
 
 ---
 
-## 🌐 Frontend Terminal (HTML + xterm.js)
+## Frontend Terminal (HTML + xterm.js)
 
 `public/index.html` provides the terminal UI with a fake loader and instructions.
 (See full HTML in the canvas)
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### SSH Key Errors
 ```
@@ -160,7 +160,7 @@ ERROR 1045 (28000): Access denied
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 This project provided hands-on experience with:
 - AWS EC2 provisioning and secure access
 - MySQL server installation and authentication
@@ -168,7 +168,7 @@ This project provided hands-on experience with:
 - Building a browser-based terminal using `xterm.js` and `node-pty`
 - Real-time SSH and MySQL interaction in a web environment
 
-### 💡 Takeaways
+### Takeaways
 - SSH keys must be stored securely and with correct permissions
 - WSL has its own filesystem and permission rules
 - Browser terminals open up powerful real-time tools for database or server interactions
