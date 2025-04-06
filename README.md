@@ -1,4 +1,4 @@
-# AWS MySQL Terminal Project Setup Documentation
+# AWS MySQL Server Setup Documentation
 
 ## Project Goal
 Build a web-based terminal that connects to a MySQL database running on an AWS EC2 instance using SSH, and allows users to interact with the database through a simulated shell in the browser.
