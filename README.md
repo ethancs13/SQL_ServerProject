@@ -1,11 +1,14 @@
-# AWS MySQL Server Setup Documentation
+# AWS MySQL Terminal Project Setup Documentation
 
 ## Project Goal
-Build a web-based AWS EC2 instance using SSH, and allows users to interact with the database through a simulated shell in the browser.
+Build a MySQL database running on an AWS EC2 instance using SSH.  
+
+#### Extra: 
+Allow users to interact with the database through a simulated shell in the browser.
 
 ---
 
-## ☁️ AWS EC2 Instance Setup
+## AWS EC2 Instance Setup
 
 ### 1. Launch EC2 Instance
 - Go to [AWS Console](https://console.aws.amazon.com/)
@@ -13,17 +16,18 @@ Build a web-based AWS EC2 instance using SSH, and allows users to interact with 
   - **AMI**: Ubuntu 22.04 LTS
   - **Instance type**: t2.micro (Free tier)
   - **Key pair**: Create and download a `.pem` file (e.g. `SQL-KEY.pem`)
-  - **Security group**: Allow TCP for SSH (port 22) and any custom port if needed (e.g. 3000)
+  - **Security group**: Allow TCP for SSH (port 22) from 0.0.0.0/0 (or your IP for more security). 
 
 ### 2. Connect to Instance
+- **Example for Ubuntu:**
 ```bash
 ssh -i ~/.ssh/SQL-KEY.pem ubuntu@your-ec2-public-ip
 ```
-or
+
+- **Example for Amazon Linux:**
 ```bash
 ssh -i ~/.ssh/SQL-KEY.pem ec2-user@your-ec2-public-ip
 ```
-If using an ec2 instance
 
 ### 3. Install MySQL Server
 ```bash
@@ -46,8 +50,10 @@ Test it:
 ```bash
 mysql
 ```
+
 ---
-## 🔑 SSH Key Creation and Usage
+
+## SSH Key Creation and Usage
 
 ### 1. Generate a new SSH key (if needed)
 In your terminal:
@@ -65,7 +71,7 @@ Copy the entire output.
 ### 3. Add SSH key to GitHub
 1. Go to GitHub → Settings → SSH and GPG keys → New SSH key
 2. Paste the public key
-3. Give it a name like "WSL Key" or "Dev Laptop"
+3. Give it a name
 
 ### 4. Set permissions for private key
 ```bash
@@ -86,6 +92,7 @@ You should see:
 ```
 Hi your-username! You've successfully authenticated...
 ```
+
 ---
 
 ## Web Terminal App Setup
@@ -130,7 +137,7 @@ wss.on('connection', function (ws) {
     name: 'xterm-color',
     cols: 80,
     rows: 24,
-    cwd: process.env.HOME,
+    cwd: process.env.WORKING_DIR || process.env.HOME,
     env: process.env
   });
 
@@ -156,20 +163,33 @@ server.listen(3000, () => console.log('Server running on http://localhost:3000')
 ```
 
 #### `.env`
+The `.env` file is used to store environment-specific configuration values outside of your codebase. This keeps sensitive data like API keys or server IPs secure and allows for easy configuration changes without modifying the code.
+
+Example contents:
 ```
+# IP address or DNS name of your EC2 instance
 EC2_HOST=your-ec2-public-ip
+
+# Optional: MySQL credentials if you plan to pass them through env
+MYSQL_USER=root
+MYSQL_PASSWORD=your_mysql_password
+
+# Optional: Specify working directory for the shell (defaults to HOME if not set)
+WORKING_DIR=/home/ubuntu
 ```
+
+> ⚠ Make sure to add `.env` to your `.gitignore` file to prevent sensitive data from being committed to version control.
 
 ---
 
-## Frontend Terminal (HTML + xterm.js)
+## 🌐 Frontend Terminal (HTML + xterm.js)
 
 `public/index.html` provides the terminal UI with a fake loader and instructions.
 (See full HTML in the canvas)
 
 ---
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 ### SSH Key Errors
 ```
@@ -211,9 +231,6 @@ This project provided hands-on experience with:
 - SSH keys must be stored securely and with correct permissions
 - WSL has its own filesystem and permission rules
 - Browser terminals open up powerful real-time tools for database or server interactions
-
-This knowledge can be applied to building cloud dashboards, devops admin tools, or full-stack cloud-native environments.
+- MySQL is such a cool technology to utilize when storing large datasets
 
 ---
-
-Happy coding! 🧑‍💻🚀
