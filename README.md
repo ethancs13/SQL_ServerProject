@@ -46,7 +46,46 @@ Test it:
 ```bash
 mysql
 ```
+---
+## 🔑 SSH Key Creation and Usage
 
+### 1. Generate a new SSH key (if needed)
+In your terminal:
+```bash
+ssh-keygen -t ed25519 -C "your-email@example.com"
+```
+Press Enter through the prompts to save it at the default path (`~/.ssh/id_ed25519`).
+
+### 2. View your public key
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+Copy the entire output.
+
+### 3. Add SSH key to GitHub
+1. Go to GitHub → Settings → SSH and GPG keys → New SSH key
+2. Paste the public key
+3. Give it a name like "WSL Key" or "Dev Laptop"
+
+### 4. Set permissions for private key
+```bash
+chmod 600 ~/.ssh/id_ed25519
+```
+
+### 5. Add your key to the SSH agent
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+### 6. Test your connection to GitHub
+```bash
+ssh -T git@github.com
+```
+You should see:
+```
+Hi your-username! You've successfully authenticated...
+```
 ---
 
 ## Web Terminal App Setup
