@@ -19,12 +19,15 @@ Allow users to interact with the database through a simulated shell in the brows
   - **Security group**: Allow TCP for SSH (port 22) from 0.0.0.0/0 (or your IP for more security). 
 
 ### 2. Connect to Instance
-- **Example for Ubuntu:**
+
+Depending on the AMI (Amazon Machine Image) you're using, the default username might differ. For Ubuntu-based instances, it's typically `ubuntu`. For Amazon Linux, it's usually `ec2-user`.
+
+**Example for Ubuntu:**
 ```bash
 ssh -i ~/.ssh/SQL-KEY.pem ubuntu@your-ec2-public-ip
 ```
 
-- **Example for Amazon Linux:**
+**Example for Amazon Linux:**
 ```bash
 ssh -i ~/.ssh/SQL-KEY.pem ec2-user@your-ec2-public-ip
 ```
@@ -77,6 +80,10 @@ Copy the entire output.
 ```bash
 chmod 600 ~/.ssh/id_ed25519
 ```
+This command sets the permissions on your private key so that **only your user account can read and write to it**. SSH requires private keys to be secure. If they are accessible by other users, SSH will refuse to use them. `600` means:
+- `6` (read + write) for the file owner
+- `0` (no permissions) for group
+- `0` (no permissions) for others
 
 ### 5. Add your key to the SSH agent
 ```bash
