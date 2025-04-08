@@ -16,7 +16,10 @@ Allow users to interact with the database through a simulated shell in the brows
   - **AMI**: Ubuntu 22.04 LTS
   - **Instance type**: t2.micro (Free tier)
   - **Key pair**: Create and download a `.pem` file (e.g. `SQL-KEY.pem`)
-  - **Security group**: Allow TCP for SSH (port 22) from 0.0.0.0/0 (or your IP for more security). 
+  - **Security group**: Allow TCP for SSH (port 22) from 0.0.0.0/0 (or your IP for more security).  
+  
+  ![image](https://github.com/user-attachments/assets/21a2ccba-7833-4830-95a5-641bc655e8f8)
+
 
 ### 2. Connect to Instance
 
@@ -80,7 +83,7 @@ Copy the entire output.
 ```bash
 chmod 600 ~/.ssh/id_ed25519
 ```
-⚠ This command sets the permissions on your private key so that **only your user account can read and write to it**. SSH requires private keys to be secure. If they are accessible by other users, SSH will refuse to use them. `600` means:
+This command sets the permissions on your private key so that **only your user account can read and write to it**. SSH requires private keys to be secure. If they are accessible by other users, SSH will refuse to use them. `600` means:
 - `6` (read + write) for the file owner
 - `0` (no permissions) for group
 - `0` (no permissions) for others
@@ -185,7 +188,7 @@ MYSQL_PASSWORD=your_mysql_password
 WORKING_DIR=/home/ubuntu
 ```
 
-> ⚠ Make sure to add `.env` to your `.gitignore` file to prevent sensitive data from being committed to version control.
+> Make sure to add `.env` to your `.gitignore` file to prevent sensitive data from being committed to version control.
 
 ---
 
