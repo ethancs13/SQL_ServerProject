@@ -80,7 +80,7 @@ Copy the entire output.
 ```bash
 chmod 600 ~/.ssh/id_ed25519
 ```
-This command sets the permissions on your private key so that **only your user account can read and write to it**. SSH requires private keys to be secure. If they are accessible by other users, SSH will refuse to use them. `600` means:
+⚠ This command sets the permissions on your private key so that **only your user account can read and write to it**. SSH requires private keys to be secure. If they are accessible by other users, SSH will refuse to use them. `600` means:
 - `6` (read + write) for the file owner
 - `0` (no permissions) for group
 - `0` (no permissions) for others
@@ -189,14 +189,14 @@ WORKING_DIR=/home/ubuntu
 
 ---
 
-## 🌐 Frontend Terminal (HTML + xterm.js)
+## Frontend Terminal (HTML + xterm.js)
 
 `public/index.html` provides the terminal UI with a fake loader and instructions.
 (See full HTML in the canvas)
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### SSH Key Errors
 ```
