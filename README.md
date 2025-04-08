@@ -1,4 +1,4 @@
-# AWS MySQL Terminal Project Setup Documentation
+# AWS MySQL Server Project Setup Documentation
 
 ## Project Goal
 Build a MySQL database running on an AWS EC2 instance using SSH.  
